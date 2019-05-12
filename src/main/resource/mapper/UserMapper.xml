@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoxiansen.dao.UserDao">
+    <select id="findUserByAccount" resultType="com.hoxiansen.entity.User" parameterType="java.lang.String">
+        SELECT * FROM tb_user WHERE account = ${account};
+    </select>
+</mapper>
