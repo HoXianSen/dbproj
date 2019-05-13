@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping("/")
+    @GetMapping(path = {"", "/"})
+    public String indexSlash() {
+        return "redirect:/admin/index";
+    }
+
+    @GetMapping("/index")
     public String index() {
         return "admin/index";
     }
