@@ -4,11 +4,12 @@ package com.hoxiansen.entity;
 public class Book {
 
   private Integer id;
-  private String name;
+  private String bookName;
   private String picture;
   private Double price;
-  private Integer count;
-  private Integer sell;
+  private String sellTime;
+  private Integer num;
+  private Integer sellState;
   private Integer subscribe;
 
 
@@ -21,12 +22,12 @@ public class Book {
   }
 
 
-  public String getName() {
-    return name;
+  public String getBookName() {
+    return bookName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setBookName(String bookName) {
+    this.bookName = bookName;
   }
 
 
@@ -48,21 +49,30 @@ public class Book {
   }
 
 
-  public Integer getCount() {
-    return count;
+  public String getSellTime() {
+    return sellTime;
   }
 
-  public void setCount(Integer count) {
-    this.count = count;
+  public void setSellTime(String sellTime) {
+    this.sellTime = sellTime;
   }
 
 
-  public Integer getSell() {
-    return sell;
+  public Integer getNum() {
+    return num;
   }
 
-  public void setSell(Integer sell) {
-    this.sell = sell;
+  public void setNum(Integer num) {
+    this.num = num;
+  }
+
+
+  public Integer getSellState() {
+    return sellState;
+  }
+
+  public void setSellState(Integer sellState) {
+    this.sellState = sellState;
   }
 
 

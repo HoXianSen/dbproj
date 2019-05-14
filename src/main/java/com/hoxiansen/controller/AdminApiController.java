@@ -5,6 +5,7 @@ import com.hoxiansen.common.Constants;
 import com.hoxiansen.common.ResCode;
 import com.hoxiansen.entity.User;
 import com.hoxiansen.service.UserService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

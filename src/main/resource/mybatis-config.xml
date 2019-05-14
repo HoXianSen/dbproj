@@ -8,12 +8,15 @@
         <setting name="cacheEnabled" value="false"/>
         <setting name="useGeneratedKeys" value="true"/>
     </settings>
-<!--    <typeAliases></typeAliases>-->
-<!--    <plugins>-->
-<!--        <plugin interceptor=""></plugin>-->
-<!--    </plugins>-->
-<!--  枚举映射用途  -->
-<!--    <typeHandlers>-->
-<!--        -->
-<!--    </typeHandlers>-->
+    <typeAliases>
+        <typeAlias type="com.hoxiansen.entity.Book" alias="Book"/>
+        <typeAlias type="com.hoxiansen.entity.User" alias="User"/>
+    </typeAliases>
+    <!--    <plugins>-->
+    <!--        <plugin interceptor=""></plugin>-->
+    <!--    </plugins>-->
+    <!--  枚举映射用途  -->
+    <!--    <typeHandlers>-->
+    <!--        -->
+    <!--    </typeHandlers>-->
 </configuration>
