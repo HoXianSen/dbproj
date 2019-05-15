@@ -22,4 +22,14 @@ public class AdminController {
     public String login() {
         return "admin/login";
     }
+
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "admin/welcome";
+    }
+
+    @GetMapping("/addBook")
+    public String addBook(){
+        return "admin/add-book";
+    }
 }
