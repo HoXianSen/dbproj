@@ -6,30 +6,28 @@
         SELECT * FROM tb_book
         <where>
             <if test="id != null">AND id = #{id}</if>
-            <if test="bookName != null">AND book_namn = #{bookName}</if>
+            <if test="bookName != null">AND book_name = #{bookName}</if>
             <if test="picture != null">AND picture = #{picture}</if>
             <if test="price != null">AND price = #{price}</if>
-            <if test="sellTime != null">AND picture = #{sellTime}</if>
-            <if test="num != null">AND picture = #{num}</if>
+            <if test="sellTime != null">AND sellTime = #{sellTime}</if>
+            <if test="num != null">AND num = #{num}</if>
             <if test="sellState != null">AND sell_state = #{sellState}</if>
-            <if test="subscribe != null">AND picture = #{subscribe}</if>
         </where>
     </select>
     <insert id="insertBook" parameterType="Book">
         INSERT INTO tb_book
-        (book_name, picture, price, sell_time, num, sell_state, subscribe)
-        VALUES(#{bookName},#{picture},#{price},#{sellTime},#{num},#{sellState},#{subscribe});
+            (book_name, picture, price, sell_time, num, sell_state)
+        VALUES (#{bookName}, #{picture}, #{price}, #{sellTime}, #{num}, #{sellState});
     </insert>
     <update id="updateBook" parameterType="Book">
         UPDATE tb_book SET
         <set>
-            <if test="bookName != null">AND book_namn = #{bookName},</if>
+            <if test="bookName != null">AND book_name = #{bookName},</if>
             <if test="picture != null">AND picture = #{picture},</if>
             <if test="price != null">AND price = #{price},</if>
             <if test="sellTime != null">AND picture = #{sellTime},</if>
             <if test="num != null">AND picture = #{num},</if>
             <if test="sellState != null">AND sell_state = #{sellState},</if>
-            <if test="subscribe != null">AND picture = #{subscribe},</if>
         </set>
         WHERE id = #{id};
     </update>

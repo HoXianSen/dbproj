@@ -10,7 +10,6 @@ public class Book {
   private String sellTime;
   private Integer num;
   private Integer sellState;
-  private Integer subscribe;
 
 
   public Integer getId() {
@@ -73,15 +72,6 @@ public class Book {
 
   public void setSellState(Integer sellState) {
     this.sellState = sellState;
-  }
-
-
-  public Integer getSubscribe() {
-    return subscribe;
-  }
-
-  public void setSubscribe(Integer subscribe) {
-    this.subscribe = subscribe;
   }
 
 }
