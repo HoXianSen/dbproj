@@ -7,7 +7,6 @@ public class Book {
   private String bookName;
   private String picture;
   private Double price;
-  private String sellTime;
   private Integer num;
   private Integer sellState;
 
@@ -45,15 +44,6 @@ public class Book {
 
   public void setPrice(Double price) {
     this.price = price;
-  }
-
-
-  public String getSellTime() {
-    return sellTime;
-  }
-
-  public void setSellTime(String sellTime) {
-    this.sellTime = sellTime;
   }
 
 

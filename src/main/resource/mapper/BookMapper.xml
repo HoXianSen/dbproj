@@ -9,15 +9,14 @@
             <if test="bookName != null">AND book_name = #{bookName}</if>
             <if test="picture != null">AND picture = #{picture}</if>
             <if test="price != null">AND price = #{price}</if>
-            <if test="sellTime != null">AND sellTime = #{sellTime}</if>
             <if test="num != null">AND num = #{num}</if>
             <if test="sellState != null">AND sell_state = #{sellState}</if>
         </where>
     </select>
     <insert id="insertBook" parameterType="Book">
         INSERT INTO tb_book
-            (book_name, picture, price, sell_time, num, sell_state)
-        VALUES (#{bookName}, #{picture}, #{price}, #{sellTime}, #{num}, #{sellState});
+            (book_name, picture, price, num, sell_state, sell_num)
+        VALUES (#{bookName}, #{picture}, #{price}, #{num}, #{sellState}, #{sellNum});
     </insert>
     <update id="updateBook" parameterType="Book">
         UPDATE tb_book SET
@@ -25,9 +24,9 @@
             <if test="bookName != null">AND book_name = #{bookName},</if>
             <if test="picture != null">AND picture = #{picture},</if>
             <if test="price != null">AND price = #{price},</if>
-            <if test="sellTime != null">AND picture = #{sellTime},</if>
-            <if test="num != null">AND picture = #{num},</if>
+            <if test="num != null">AND num = #{num},</if>
             <if test="sellState != null">AND sell_state = #{sellState},</if>
+            <if test="sellNum != null">AND sell_num = #{sellNum},</if>
         </set>
         WHERE id = #{id};
     </update>

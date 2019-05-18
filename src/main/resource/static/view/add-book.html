@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
     <title>添加图书</title>
 </head>
 <body>
-<form>
+<h1>添加图书</h1>
+<form class="mt-2" action="#">
     <div class="form-inline form-group">
-        <label for="bookName">名称：</label>
+        <label for="bookName">名&emsp;&emsp;称：</label>
         <input class="form-control" name="bookName" id="bookName" placeholder="Name"/>
     </div>
     <div class="form-inline form-group">
-        <label for="price">价格：</label>
+        <label for="price">价&emsp;&emsp;格：</label>
         <input class="form-control" name="price" id="price" placeholder="price"/>
     </div>
     <div class="form-inline form-group">
-        <label for="num">数量：</label>
+        <label for="num">数&emsp;&emsp;量：</label>
         <input class="form-control" name="num" id="num" placeholder="num"/>
     </div>
     <div class="form-inline form-group">
@@ -26,7 +32,22 @@
         <label for="sellTime">开售时间：</label>
         <input class="form-control" name="sellTime" id="sellTime" placeholder="sellTime"/>
     </div>
-    <button class="btn btn-success">提交</button>
+    <button class="btn btn-success" type="submit">提交</button>
 </form>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('form').submit(function () {
+            console.log('submit');
+            const $form = $('form');
+            const data = $form.serialize();
+            console.log(data);
+            $.post('/book/add', data, (res) => {
+                console.log(res);
+            }, 'json');
+            return false;
+        });
+    })
+</script>
 </body>
 </html>
