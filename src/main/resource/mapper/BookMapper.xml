@@ -15,8 +15,8 @@
     </select>
     <insert id="insertBook" parameterType="Book">
         INSERT INTO tb_book
-            (book_name, picture, price, num, sell_state, sell_num)
-        VALUES (#{bookName}, #{picture}, #{price}, #{num}, #{sellState}, #{sellNum});
+            (book_name, picture, price, num)
+        VALUES (#{bookName}, #{picture}, #{price}, #{num});
     </insert>
     <update id="updateBook" parameterType="Book">
         UPDATE tb_book SET

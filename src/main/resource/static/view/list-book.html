@@ -4,63 +4,74 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <!--  解决图片403问题  -->
+    <meta name="referrer" content="no-referrer"/>
     <!-- Bootstrap CSS -->
-    <!--<link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">-->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap-table.min.css">
+<!--    <link rel="stylesheet" href="/static/fontawesome/fontawesome.5-6-3.all.css">-->
     <title>图书列表</title>
 </head>
 <body>
-<table id="bookList" class="display">
-    <thead>
-    <tr>
-        <th>Column 1</th>
-        <th>Column 2</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Row 1 Data 1</td>
-        <td>Row 1 Data 2</td>
-    </tr>
-    <tr>
-        <td>Row 2 Data 1</td>
-        <td>Row 2 Data 2</td>
-    </tr>
-    </tbody>
+<h1>图书列表</h1>
+<table id="bookTable">
 </table>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="/static/jquery/jquery-3.3.1.min.js"></script>
+<!--<script src="/static/bootstrap/popper.min.js"></script>-->
+<script src="/static/bootstrap/bootstrap.min.js"></script>
+<script src="/static/bootstrap/bootstrap-table.min.js"></script>
+<script src="/static/bootstrap/bootstrap-table-zh-CN.js"></script>
 <script type="application/javascript">
     $(document).ready(function () {
         reloadTable();
     });
 
-    function getBookList(book = null) {
-        return new Promise((resolve) => {
-            $.getJSON('/book/list', book, (res) => {
-                resolve(res.data);
-            });
+    function reloadTable(param = '') {
+        console.log('reloadTable>>>', param);
+        $('#bookTable').bootstrapTable({
+            url: '/book/list?' + param,
+            pagination: true,
+            search: false,
+            locale: 'zh-CN',
+            columns: [{
+                field: 'index',
+                title: '#',
+                formatter: indexFormatter,
+            }, {
+                field: 'picture',
+                title: '图片',
+                formatter: pictureFormatter,
+            }, {
+                field: 'bookName',
+                title: '书名',
+            }, {
+                field: 'price',
+                title: '价格',
+                sortable: true,
+            }, {
+                field: 'sellNum',
+                title: '销量',
+                sortable: true,
+            }, {
+                field: 'num',
+                title: '库存',
+                sortable: true,
+            },]
         });
     }
 
-    function reloadTable(book = null) {
-        getBookList(book).then((bookList) => {
-            $('#bookList').DataTable({
-                stateSave: true,
-                searching: false,
-                deferRender: true,
-                data: bookList,
-                columns: [
-                    {data: 'picture'},
-                    {data: 'bookName'},
-                    {data: 'price'},
-                    {data: 'num'},
-                    {data: 'sellState'},
-                ]
-            });
-        });
+    function pictureFormatter(value, row, index, field) {
+        const img = document.createElement('img');
+        img.setAttribute('src', value);
+        img.setAttribute('alt', row['bookName']);
+        img.setAttribute('height', '65');
+        img.setAttribute('width', '48');
+        return img.outerHTML;
+    }
+
+    function indexFormatter(value, row, index) {
+        return index + 1;
     }
 </script>
 </html>

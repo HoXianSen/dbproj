@@ -5,11 +5,14 @@ import com.hoxiansen.entity.Book;
 import com.hoxiansen.service.BookService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
-@RestController("/book")
+@RestController
+@RequestMapping("/book")
 public class BookController {
     @Resource
     private BookService bookService;
@@ -29,9 +32,7 @@ public class BookController {
     }
 
     @GetMapping("/list")
-    public CommonRes list(Book book) {
-        CommonRes res = new CommonRes();
-        res.setData(bookService.listBooks(book));
-        return res;
+    public List<Book> list(Book book) {
+        return bookService.listBooks(book);
     }
 }
