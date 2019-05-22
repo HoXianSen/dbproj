@@ -31,6 +31,14 @@ public class BookController {
         return res;
     }
 
+    @GetMapping("/sellNumRangeList")
+    public CommonRes sellNumRangeList(Integer low, Integer high) {
+        CommonRes res = new CommonRes();
+        List<Book> books = bookService.listBooksBySellNumsRange(low, high);
+        res.setData(books);
+        return res;
+    }
+
     @GetMapping("/list")
     public List<Book> list(Book book) {
         return bookService.listBooks(book);

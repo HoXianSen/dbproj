@@ -13,6 +13,13 @@
             <if test="sellState != null">AND sell_state = #{sellState}</if>
         </where>
     </select>
+    <select id="selectBooksByRange" resultType="Book">
+        SELECT * FROM tb_book
+        <where>
+            <if test="low != null">AND #{param3} >= #{param1}</if>
+            <if test="high != null">AND #{param3} &lt; #{param2}</if>
+        </where>
+    </select>
     <insert id="insertBook" parameterType="Book">
         INSERT INTO tb_book
             (book_name, picture, price, num)
