@@ -43,4 +43,11 @@ public class BookController {
     public List<Book> list(Book book) {
         return bookService.listBooks(book);
     }
+
+    @GetMapping("/purchase")
+    public CommonRes purchase(Integer id) {
+        CommonRes res = new CommonRes();
+        bookService.purchaseBook(id, res);
+        return res;
+    }
 }

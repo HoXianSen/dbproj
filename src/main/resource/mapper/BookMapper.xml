@@ -6,8 +6,8 @@
         SELECT * FROM tb_book
         <where>
             <if test="id != null">AND id = #{id}</if>
-            <if test="bookName != null">AND book_name = #{bookName}</if>
-            <if test="picture != null">AND picture = #{picture}</if>
+            <if test="bookName != null and bookName.length()>0">AND book_name like "%"#{bookName}"%"</if>
+            <if test="picture != null and picture.length()>0">AND picture = #{picture}</if>
             <if test="price != null">AND price = #{price}</if>
             <if test="num != null">AND num = #{num}</if>
             <if test="sellState != null">AND sell_state = #{sellState}</if>
@@ -16,8 +16,8 @@
     <select id="selectBooksByRange" resultType="Book">
         SELECT * FROM tb_book
         <where>
-            <if test="low != null">AND #{param3} >= #{param1}</if>
-            <if test="high != null">AND #{param3} &lt; #{param2}</if>
+            <if test="low != null">AND #{columnName} >= #{low}</if>
+            <if test="high != null">AND #{columnName} &lt; #{high}</if>
         </where>
     </select>
     <insert id="insertBook" parameterType="Book">
@@ -26,15 +26,21 @@
         VALUES (#{bookName}, #{picture}, #{price}, #{num});
     </insert>
     <update id="updateBook" parameterType="Book">
-        UPDATE tb_book SET
+        UPDATE tb_book
         <set>
-            <if test="bookName != null">AND book_name = #{bookName},</if>
-            <if test="picture != null">AND picture = #{picture},</if>
-            <if test="price != null">AND price = #{price},</if>
-            <if test="num != null">AND num = #{num},</if>
-            <if test="sellState != null">AND sell_state = #{sellState},</if>
-            <if test="sellNum != null">AND sell_num = #{sellNum},</if>
+            <if test="bookName != null and bookName.length()>0">book_name = #{bookName},</if>
+            <if test="picture != null and picture.length()>0">picture = #{picture},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="sellState != null">sell_state = #{sellState},</if>
+            <if test="sellNum != null">sell_num = #{sellNum},</if>
         </set>
+        WHERE id = #{id};
+    </update>
+    <update id="purchaseBook">
+        UPDATE tb_book
+        SET sell_num = sell_num + 1,
+            num      = num - 1
         WHERE id = #{id};
     </update>
 </mapper>

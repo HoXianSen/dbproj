@@ -1,12 +1,17 @@
 package com.hoxiansen.service;
 
+import com.hoxiansen.common.CommonRes;
+import com.hoxiansen.common.ResCode;
 import com.hoxiansen.dao.BookDao;
 import com.hoxiansen.entity.Book;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -52,5 +57,27 @@ public class BookService {
             return;
         }
         bookDao.updateBook(book);
+    }
+
+    public boolean purchaseBook(@Param("id") Integer id, CommonRes res) {
+        if (id == null) {
+            log.error("purchaseBook>>>id=null");
+            res.setCodeAndMsg(ResCode.PARAM_MISSION);
+            return false;
+        }
+        /*检查是否有货*/
+        Book book = new Book();
+        book.setId(id);
+        List<Book> books = listBooks(book);
+        book = books.get(0);
+        if (book.getNum() <= 0) {
+            //无货
+            res.setCodeAndMsg(ResCode.SELL_OUT);
+            res.setData(book.getNum());
+            return false;
+        }
+        bookDao.purchaseBook(id);
+        res.setData(book.getNum() - 1);
+        return true;
     }
 }
