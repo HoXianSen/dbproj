@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/jqueryToast/css/toast.style.css">
     <title>登陆</title>
     <style>
         html,
@@ -67,16 +68,11 @@
     <input type="password" id="password" name="password" class="form-control" placeholder="" required>
     <button class="btn btn-lg btn-primary btn-block" id="submit">登陆</button>
 </div>
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong id="login-err-message">登陆失败</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/static/jqueryToast/js/toast.script.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"-->
 <!--integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"-->
 <!--crossorigin="anonymous"></script>-->
@@ -95,8 +91,19 @@
                 if (res.code === 0) {
                     //success
                     window.location.href = '/admin/index';
+                    $.Toast('', '登陆成功', 'success', {
+                        stack: true,
+                        position_class: 'toast-top-right',
+                        timeout: 1000,
+                        has_icon: false,
+                    });
                 } else {
-
+                    $.Toast('', res.message, 'error', {
+                        stack: true,
+                        position_class: 'toast-top-right',
+                        timeout: 1000,
+                        has_icon: false,
+                    });
                 }
             }, 'json');
         })

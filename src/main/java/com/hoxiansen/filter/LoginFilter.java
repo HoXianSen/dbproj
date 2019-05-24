@@ -20,10 +20,10 @@ public class LoginFilter extends OncePerRequestFilter {
             }
         }
         Object obj = request.getSession().getAttribute(Constants.SESSION_ATTR_USER);
-//        if (obj == null) {
-//            response.sendRedirect("/admin/login");
-//            return;
-//        }
+        if (obj == null) {
+            response.sendRedirect("/admin/login");
+            return;
+        }
         filterChain.doFilter(request, response);
     }
 }

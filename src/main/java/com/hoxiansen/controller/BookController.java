@@ -31,6 +31,13 @@ public class BookController {
         return res;
     }
 
+    @PostMapping("/delete")
+    public CommonRes delete(Integer id) {
+        CommonRes res = new CommonRes();
+        bookService.deleteBook(id);
+        return res;
+    }
+
     @GetMapping("/sellNumRangeList")
     public CommonRes sellNumRangeList(Integer low, Integer high) {
         CommonRes res = new CommonRes();

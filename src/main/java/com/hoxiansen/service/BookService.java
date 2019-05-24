@@ -59,6 +59,14 @@ public class BookService {
         bookDao.updateBook(book);
     }
 
+    public void deleteBook(Integer id) {
+        if (id == null) {
+            log.error("deleteBookFail,id=null");
+            return;
+        }
+        bookDao.deleteBook(id);
+    }
+
     public boolean purchaseBook(@Param("id") Integer id, CommonRes res) {
         if (id == null) {
             log.error("purchaseBook>>>id=null");

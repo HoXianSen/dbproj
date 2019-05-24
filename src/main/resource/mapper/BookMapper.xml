@@ -37,6 +37,11 @@
         </set>
         WHERE id = #{id};
     </update>
+    <delete id="deleteBook">
+        DELETE
+        FROM tb_book
+        WHERE id = #{id};
+    </delete>
     <update id="purchaseBook">
         UPDATE tb_book
         SET sell_num = sell_num + 1,

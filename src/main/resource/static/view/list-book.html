@@ -14,19 +14,17 @@
     <title>图书列表</title>
 </head>
 <body>
-<form class="form-group form-inline mt-4">
-    <label>ID：<input class="form-control" type="text"/></label>
-    <label>书名：<input class="form-control" type="text"/></label>
-    <label>价格：
-        <input class="form-control col-2" type="text"/>
-        <strong>&nbsp;<&nbsp;</strong>
-        <input class="form-control col-2" type="text"/>
+<form class="form-group form-inline mt-3" action="#" id="searchForm">
+    <label>ID：<input name="id" class="form-control" type="text"/></label>
+    <label>书名：<input name="bookName" class="form-control" type="text"/></label>
+    <label>状态：
+        <select name="sellState" class="form-control">
+            <option value="">全部</option>
+            <option value="1">正常</option>
+            <option value="0">已下架</option>
+        </select>
     </label>
-    <label>销量：
-        <input class="form-control col-2" type="text"/>
-        <strong>&nbsp;<&nbsp;</strong>
-        <input class="form-control col-2" type="text"/>
-    </label>
+    <button class="btn btn-primary" type="submit">搜索</button>
 </form>
 <table id="bookTable"></table>
 <!-- Modal -->
@@ -66,6 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" onclick="deleteBook()">删除</button>
                 <button type="button" class="btn btn-primary" onclick="modifyBook()">提交</button>
             </div>
         </div>
@@ -81,7 +80,7 @@
 <script type="application/javascript">
     String.prototype.format = function (args) {
         if (arguments.length > 0) {
-            var result = this;
+            let result = this;
             if (arguments.length === 1 && typeof (args) == "object") {
                 for (let key in args) {
                     let reg = new RegExp("({" + key + "})", "g");
@@ -104,49 +103,67 @@
     }
 </script>
 <script type="application/javascript">
+    const $searchForm = $('#searchForm');
+    $searchForm.submit(function () {
+        console.log($searchForm.serialize());
+        refreshTable($searchForm.serialize());
+        return false;
+    })
+</script>
+<script type="application/javascript">
     let clickedRowIndex = -1;
-
+    const option = {
+        url: '/book/list?',
+        pagination: true,
+        search: false,
+        locale: 'zh-CN',
+        uniqueId: 'id',
+        rememberOrder: true,
+        pageList: [10, 20],
+        onClickRow: clickRow,
+        columns:
+            [{
+                field: 'id',
+                title: 'ID',
+                sortable: true,
+            }, {
+                field: 'picture',
+                title: '图片',
+                formatter: pictureFormatter,
+            }, {
+                field: 'bookName',
+                title: '书名',
+            }, {
+                field: 'price',
+                title: '价格',
+                sortable: true,
+            }, {
+                field: 'sellNum',
+                title: '销量',
+                sortable: true,
+            }, {
+                field: 'num',
+                title: '库存',
+                sortable: true,
+            }, {
+                field: 'sellState',
+                title: '是否上架',
+                formatter: sellStateFormatter,
+            },]
+    };
     $(document).ready(function () {
         reloadTable();
     });
 
-    function reloadTable(param = '') {
-        console.log('reloadTable>>>', param);
-        $('#bookTable').bootstrapTable({
-            url: '/book/list?' + param,
-            pagination: true,
-            search: false,
-            locale: 'zh-CN',
-            uniqueId: 'id',
-            rememberOrder: true,
-            pageList: [10, 20],
-            onClickRow: clickRow,
-            columns:
-                [{
-                    field: 'id',
-                    title: 'ID',
-                }, {
-                    field: 'picture',
-                    title: '图片',
-                    formatter: pictureFormatter,
-                }, {
-                    field: 'bookName',
-                    title: '书名',
-                }, {
-                    field: 'price',
-                    title: '价格',
-                }, {
-                    field: 'sellNum',
-                    title: '销量',
-                }, {
-                    field: 'num',
-                    title: '库存',
-                }, {
-                    field: 'sellState',
-                    title: '是否上架',
-                    formatter: sellStateFormatter,
-                },]
-        });
+    function reloadTable() {
+        $('#bookTable').bootstrapTable(option);
+    }
+
+    function refreshTable(param) {
+        const nOpt = {};
+        Object.assign(nOpt, option);
+        nOpt.url += param;
+        $('#bookTable').bootstrapTable('refresh', nOpt);
     }
 
     function pictureFormatter(value, row, index, field) {
@@ -206,6 +223,35 @@
 
         clickedRowIndex = 0;
         $('#bookModify').modal('toggle');
+    }
+
+    function deleteBook() {
+        const $form = $('#modifyBookForm');
+        const param = $form.serialize();
+        $.post('/book/delete', param, (res) => {
+            if (res.code === 0) {
+                $.Toast('', '删除成功', 'success', {
+                    stack: true,
+                    position_class: 'toast-top-right',
+                    timeout: 2000,
+                    has_icon: false,
+                });
+                const newRow = {};
+                const serializeArr = $form.serializeArray();
+                serializeArr.forEach((value) => {
+                    newRow[value['name']] = value['value'];
+                });
+                $('#bookTable').bootstrapTable('removeByUniqueId', newRow['id']);
+            } else {
+                $.Toast('', res.message, 'error', {
+                    stack: true,
+                    position_class: 'toast-top-right',
+                    timeout: 2000,
+                    has_icon: false,
+                });
+            }
+            $('#bookModify').modal('toggle');
+        });
     }
 
     function modifyBook() {
